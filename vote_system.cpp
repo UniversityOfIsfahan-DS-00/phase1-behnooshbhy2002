@@ -139,21 +139,32 @@ void showTable(movie obj[] , voteRate rate[] , int num_movie)
 }
 //vote part
 void vote_movie(user person[] , voteRate rate[] , int num_movie , int shomare){
+    bool flag=true;
     string id;
     float rating;
-    while(1){
+    while(flag){
             cout<<"Enter title id of movie : ";
             cin>>id;
                 if( person[shomare].check_vote( id ))
-                    cout<<"You have voted to this movie before please choose another one\n ";
-                else
-                    break;
+                    cout<<"\n--You have voted to this movie before please choose another one--\n\n";
+                else{ 
+                    for(int i=1; i<num_movie; i++){
+                        if(id==rate[i].get_tconst()){
+                             flag=false;
+                             break;
+                        }
+                        
+                    }
+                    if(flag)
+                    cout<<"\n--please enter another id--\n\n";
                 }
+                  
+            }
             cout<<"Enter your rating : ";
                 do{
                     cin>>rating;
                        if(rating < 0 || rating > 10)
-                          cout<<"Invalid rating try again\nEnter your rating : ";
+                          cout<<"\n--Invalid rating try again--\n\nEnter your rating : ";
                 }while(rating < 0 || rating > 10);
 
                 for(int i=0; i<num_movie; i++){
@@ -162,7 +173,7 @@ void vote_movie(user person[] , voteRate rate[] , int num_movie , int shomare){
                         r = floor ( r * 10 + .5 ) / 10;
                         rate[i].set_averageRating(r);
                         rate[i].set_numVote(rate[i].get_numVote() + 1);
-                        cout<<(rate[i].get_averageRating())<<endl<<(rate[i].get_numVote())<<endl;
+                        cout<<"\nNew rating : "<<(rate[i].get_averageRating())<<endl<<"Number Of Votes : "<<(rate[i].get_numVote())<<endl<<endl;
                     }
                 }
                    person[shomare].set_listOfMovie( id);
@@ -273,7 +284,7 @@ void UserPart(movie obj[] , voteRate Rate[] , int counter){
                            break;
                      }
                      else{
-                        cout<<"invalid password try again \n";
+                        cout<<"\n----invalid password try again---- \n\n";
                         cout<<"password : ";
                         cin>>password;
                      }
@@ -281,7 +292,7 @@ void UserPart(movie obj[] , voteRate Rate[] , int counter){
                  }
                }
                else{
-                  cout<<"Incorrect username \nplease sign up  first!! \n";
+                  cout<<"\nIncorrect username \nplease sign up  first!! \n\n";
                }
            }
         else if(choose==2){
@@ -291,14 +302,14 @@ void UserPart(movie obj[] , voteRate Rate[] , int counter){
                cin>>username;
                  //checking for duplicate username
                  if(person[shomare].check_user(username , person, shomare)){
-                    cout<<"This is duplicate username try sth else \n";
+                    cout<<"----This is duplicate username try sth else---- \n";
                  }
                  else{
                     cout<<"password : ";
                     cin>>password;
                     person[shomare].set_username(username);
                     person[shomare].set_password(password);
-                    cout<<"You signed up successfully!! \nYou can login now\n";
+                    cout<<"\n** ( You signed up successfully!!  ) ** \n You can login now \n\n";
                     shomare++;
                     break;
                  }
@@ -308,7 +319,7 @@ void UserPart(movie obj[] , voteRate Rate[] , int counter){
              break;
         }
         else{
-           cout<<"Incorrect value please try again \n";
+           cout<<"\n----Incorrect value please try again---- \n\n";
         }
        // system("cls");
      }
